@@ -22,7 +22,7 @@ def recv_data(client_socket) :
 start_new_thread(recv_data, (client_socket,))
 print ('>> Connect Server')
 
-class COEX(BaseSample):
+class DofbotSync(BaseSample):
     def __init__(self) -> None:
         super().__init__()
         self._controller = None

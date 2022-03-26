@@ -8,23 +8,23 @@
 
 import os
 from omni.isaac.examples.base_sample import BaseSampleExtension
-from omni.isaac.examples.user_examples import COEX
+from omni.isaac.examples.user_examples import DofbotSync
 import asyncio
 import omni.ui as ui
 from omni.isaac.ui.ui_utils import btn_builder, str_builder
 
 
-class COEXExtension(BaseSampleExtension):
+class DofbotSyncExtension(BaseSampleExtension):
     def on_startup(self, ext_id: str):
         super().on_startup(ext_id)
         super().start_extension(
-            menu_name="AISL",
+            menu_name="",
             submenu_name="",
-            name="COEX",
-            title="COEX",
+            name="Dofbot",
+            title="Dofbot",
             doc_link="https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/overview.html",
-            overview="This project is for Federal Learning COEX exhibition",
-            sample=COEX(),
+            overview="This Example shows how to follow a target using Dofbot robot in Isaac Sim.\n\nPress the 'Open in IDE' button to view the source code.",
+            sample=DofbotSync(),
             file_path=os.path.abspath(__file__),
             number_of_extra_frames=2,
             window_width=700,
@@ -36,9 +36,9 @@ class COEXExtension(BaseSampleExtension):
         self.build_data_logging_ui(frame)
         return
 
-    def _on_async_movement_button_event(self):
-        asyncio.ensure_future(self.sample._on_follow_target_event_async()) #수정 필요
-        self.task_ui_elements["Async Movement"].enabled = False
+    def _on_follow_target_button_event(self):
+        asyncio.ensure_future(self.sample._on_follow_target_event_async())
+        self.task_ui_elements["Follow Target"].enabled = False
         return
 
     def _on_add_obstacle_button_event(self):
@@ -96,18 +96,18 @@ class COEXExtension(BaseSampleExtension):
         with frame:
             with ui.VStack(spacing=5):
                 # Update the Frame Title
-                frame.title = "Async & Learn"
+                frame.title = "Task Controls"
                 frame.visible = True
                 dict = {
-                    "label": "Async Movement",
+                    "label": "Follow Target",
                     "type": "button",
-                    "text": "Async Movement",
-                    "tooltip": "Async Movement",
+                    "text": "Follow Target",
+                    "tooltip": "Follow Target",
                     "on_clicked_fn": self._on_follow_target_button_event,
                 }
 
-                self.task_ui_elements["Async Movement"] = btn_builder(**dict)
-                self.task_ui_elements["Async Movement"].enabled = False
+                self.task_ui_elements["Follow Target"] = btn_builder(**dict)
+                self.task_ui_elements["Follow Target"].enabled = False
                 dict = {
                     "label": "Add Obstacle",
                     "type": "button",
